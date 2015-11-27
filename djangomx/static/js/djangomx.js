@@ -33,7 +33,7 @@ $(function() {
     var job_success = '<div class="alert alert-success alert-dismissable">' +
       '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>' +
       '<strong>Bien hecho!</strong> Hemos recibido su oferta de trabajo. Por favor espere a que ' +
-      'nuestros administradores lo verifiquen para ser mostrado en los resultados</div>'
+      'nuestros administradores lo verifiquen para ser mostrada en los resultados</div>'
 
     $('#add-job').click(function(){
         $('.modal').modal('toggle')
