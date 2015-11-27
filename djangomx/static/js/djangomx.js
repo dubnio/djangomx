@@ -1,3 +1,6 @@
+-// Developed by Ernesto Vargas
+-// me@netoxico.com
+-
 $(function() {
     // Animations
     $('.welcome-h2').addClass('animated fadeInDown');
