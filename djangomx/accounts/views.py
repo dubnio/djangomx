@@ -14,10 +14,8 @@ class ProfileView(DetailView):
 
     def get_context_data(self, *args, **kwargs):
         context = super(ProfileView, self).get_context_data(*args, **kwargs)
-        user = self.object.user
         context.update({
-            'user': user,
-            'posts': Post.objects.filter(author=user)
+            'posts': Post.objects.filter(author=self.object.user),
         })
         return context
 

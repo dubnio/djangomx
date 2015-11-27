@@ -15,8 +15,8 @@ def get_upload_to(instance, filename):
 
 class Job(models.Model):
     title = models.CharField(max_length=200)
-    slug = models.SlugField(unique=True)
-    content = models.TextField(max_length=400)
+    slug = models.SlugField(unique=True, max_length=200)
+    content = models.TextField(max_length=800)
     contact = models.EmailField()
 
     active = models.BooleanField(default=True)
