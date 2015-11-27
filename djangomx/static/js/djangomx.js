@@ -38,6 +38,7 @@ $(function() {
     $('#add-job').click(function(){
         $('.modal').modal('toggle')
     });
+
     // Add new job form
     $('#add-job-form').submit(function() {
         var fields = ['title', 'content', 'contact']
