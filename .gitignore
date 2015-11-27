@@ -8,6 +8,7 @@
 virtualenv
 .codeintel
 .coverage
+.coveralls.yml
 *.sublime-project
 *.sublime-workspace
 local_settings.py

@@ -15,10 +15,11 @@ except IOError:
     }
 
 DEBUG = True
-TEMPLATE_DEBUG = DEBUG
+
 
 ADMINS = (
-    ('Admin', 'me@netoxico.com'),
+    ('netoxico', 'me@netoxico.com'),
+    ('andyosuna', 'andyosuna@gmail.com'),
 )
 
 MANAGERS = ADMINS
@@ -73,6 +74,7 @@ TEMPLATES = [
         'DIRS': [os.path.join(BASE_DIR, 'templates'), ],
         'APP_DIRS': True,
         'OPTIONS': {
+            'debug': DEBUG,
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
@@ -82,6 +84,7 @@ TEMPLATES = [
                 'django.core.context_processors.static',
                 'django.core.context_processors.tz',
                 'django.contrib.messages.context_processors.messages',
+                'django.core.context_processors.request'
             ],
         },
     },
@@ -97,7 +100,7 @@ DATABASES = {
     }
 }
 
-INSTALLED_APPS = (
+INSTALLED_APPS = [
     'suit',
     'suit_redactor',
     'django.contrib.auth',
@@ -120,7 +123,7 @@ INSTALLED_APPS = (
     'jobs',
     'newsletter',
     'accounts',
-)
+]
 
 COMPRESS_ENABLED = True
 COMPRESS_OFFLINE = False
@@ -169,15 +172,18 @@ THUMBNAIL_DEBUG = True
 THUMBNAIL_KVSTORE = 'sorl.thumbnail.kvstores.redis_kvstore.KVStore'
 THUMBNAIL_QUALITY = 100
 
-# Django SUIT configuration
-from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS as TCP
-
-TEMPLATE_CONTEXT_PROCESSORS = TCP + (
-    'django.core.context_processors.request',
-)
-
 MARKDOWN_EXTENSIONS = ['codehilite']
 
 # django_gravatar settings
 GRAVATAR_DEFAULT_SIZE = 180
 GRAVATAR_DEFAULT_IMAGE = 'retro'
+
+# Django nose
+INSTALLED_APPS.append('django_nose')
+TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
+NOSE_ARGS = [
+    '--with-coverage',
+    #'--verbosity=0',
+    '--with-fixture-bundling',
+    '--cover-package=accounts,blog'
+]

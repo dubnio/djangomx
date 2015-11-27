@@ -53,3 +53,23 @@ Crea el archivo de configuración:
     "secret_key": "baconislife"
 }
 ```
+
+## Cómo contribuir codigo?
+
+Tomar un issue o crear uno nuevo[Issues](https://github.com/djangomx/djangomx/issues)
+
+Recomendamos crear una rama separada por issue, tarea y trabajar sobre ella
+```
+git checkout -b task-566
+```
+
+Hacer tus commits con mensajes explicitos
+```
+git commit -m 'Python 3 support... Fixes #12'
+```
+
+Subes tu rama y creas un pull request
+```
+git push origin task-566
+```
+

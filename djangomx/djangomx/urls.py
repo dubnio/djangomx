@@ -20,6 +20,8 @@ urlpatterns = [
     url(r'^cursos/', include('courses.urls', namespace='courses')),
     url(r'^ofertas/', include('jobs.urls', namespace='jobs')),
 
+    url(r'^markdown/', include( 'django_markdown.urls')),
+
     url(r'^404/$', TemplateView.as_view(template_name='404.html')),
     url(r'^500/$', TemplateView.as_view(template_name='500.html')),
     url(
