@@ -1,6 +1,3 @@
-// Developed by Ernesto Vargas
-// me@netoxico.com
-
 $(function() {
     // Animations
     $('.welcome-h2').addClass('animated fadeInDown');
@@ -30,12 +27,15 @@ $(function() {
     });
 
 
-    var job_sussess = '<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><strong>Bien hecho!</strong> Se agregado su oferta de trabajo.</div>'
+    var job_success = '<div class="alert alert-success alert-dismissable">' +
+      '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>' +
+      '<strong>Bien hecho!</strong> Hemos recibido su oferta de trabajo. Por favor espere a que ' +
+      'nuestros administradores lo verifiquen para ser mostrado en los resultados</div>'
 
     $('#add-job').click(function(){
         $('.modal').modal('toggle')
     });
-    // Add new job form     
+    // Add new job form
     $('#add-job-form').submit(function() {
         var fields = ['title', 'content', 'contact']
         $.ajax({
@@ -44,8 +44,8 @@ $(function() {
             data: $('#add-job-form').serialize(),
             success: function(data) {
                 if (data.success === true) {
-                    $('#notification').html(job_sussess);
-                    setTimeout(function(){$('#notification').html("")}, 4000)
+                    $('#notification').html(job_success);
+                    setTimeout(function(){$('#notification').html("")}, 10000)
                     $('.modal').modal('toggle')
                 } else {
                     $.each(fields, function( index, value ) {

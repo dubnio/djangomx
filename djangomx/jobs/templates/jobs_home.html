@@ -10,7 +10,7 @@
     <div class="jumbotron">
         <h2 class="welcome-h2">¡Encuentra algún desarrollador Django!</h2>
         <p class="welcome-p">Postea tu oferta de trabajo rápido y ponte en contacto con un desarrollador django en México.</p>
-    </div> 
+    </div>
 </div>
 
 <div class="row row-offcanvas row-offcanvas-right">
@@ -29,12 +29,12 @@
                 </div>
                 <div id="collapse-{{ object.id }}" class="panel-collapse collapse">
                     <div class="panel-body">
-                        {{ object.content | safe}}
+                        {{ object.content | safe | linebreaks}}
                         {% thumbnail object.image "100x100" crop="center" as im %}
                         <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
                         {% endthumbnail %}
                         {% if object.contact %}
-                            <br><b>Contacto:</b> <a href="mailto:{{ object.contact }}"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span></a>
+                            <br><b>Contacto:</b> {{ object.contact }} <a href="mailto:{{ object.contact }}"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span></a>
                         {% endif %}
                     </div>
                 </div>
