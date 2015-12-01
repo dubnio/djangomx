@@ -4,6 +4,7 @@ from django.test import TestCase
 from django_gravatar.helpers import has_gravatar
 from model_mommy import mommy
 
+from .admin import ProfileAdmin
 from .models import Profile
 
 
@@ -30,3 +31,17 @@ class ProfileTestCase(TestCase):
 
         self.assertEqual(profile.user, self.user)
         self.assertEqual(Profile.objects.all().count(), 1)
+
+
+class ProfileAdminTestCase(TestCase):
+
+    def setUp(self):
+        self.user1 = mommy.make(User)
+        self.user2 = mommy.make(User)
+        self.user3 = mommy.make(User)
+        self.profile1 = mommy.make(Profile, user=user1)
+        self.profile2 = mommy.make(Profile, user=user2)
+        self.profile3 = mommy.make(Profile, user=user3)
+
+    def test_blogpost_pending(self, obj):
+        blogpost_pending = Profile.blogpost_pending()

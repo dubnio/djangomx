@@ -24,3 +24,4 @@ secrets.json
 media
 public
 CACHE
+.cache
