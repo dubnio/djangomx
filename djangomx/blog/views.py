@@ -1,86 +1,69 @@
 # coding: utf-8
 from itertools import groupby
 
-from django.shortcuts import get_object_or_404
 from django.contrib.syndication.views import Feed
-from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.core.urlresolvers import reverse
-
-from annoying.decorators import render_to
+from django.views.generic import ListView, DetailView
 
 from .models import Category, Post
 
 
-@render_to("blog_home.html")
-def blog_home(request):
-    posts_list = Post.objects.filter(is_active=True).order_by('-published_at')
-    categories = Category.objects.filter(is_active=True)
-    paginator = Paginator(posts_list, 4)
+class BlogHomeView(ListView):
+    model = Post
+    queryset = Post.objects.get_active()
+    paginate_by = 4
+    template_name = 'blog_home.html'
+    context_object_name = 'posts'
 
-    page = request.GET.get('page')
+    def get_categories(self):
+        return Category.objects.filter(post__in=self.get_queryset(), is_active=True)
 
-    try:
-        posts = paginator.page(page)
-    except PageNotAnInteger:
-        posts = paginator.page(1)
-    except EmptyPage:
-        posts = paginator.page(paginator.num_pages)
-
-    return {
-        'posts': posts,
-        'categories': categories,
-        'paginator': paginator,
-    }
+    def get_context_data(self, **kwargs):
+        context = super(BlogHomeView, self).get_context_data(**kwargs)
+        context.update({
+            'categories': self.get_categories(),
+        })
+        return context
 
 
-@render_to('post.html')
-def view_post(request, slug):
-    post = get_object_or_404(Post, slug=slug)
-    categories = Category.objects.filter(is_active=True)
-
-    return {
-        'post': post,
-        'categories': categories,
-    }
+class PostDetailView(DetailView):
+    model = Post
+    template_name = 'post.html'
+    context_object_name = 'post'
 
 
-@render_to('category.html')
-def category(request, category_slug):
-    category = get_object_or_404(Category, slug=category_slug)
-    posts_list = Post.objects.filter(is_active=True, category=category).order_by('-published_at')
-    categories = Category.objects.filter(is_active=True)
-    paginator = Paginator(posts_list, 5)
+class CategoryView(DetailView):
+    model = Category
+    queryset = Category.objects.filter(is_active=True)
+    context_object_name = 'categories'
+    paginate_by = 5
+    template_name = 'category.html'
 
-    page = request.GET.get('page')
-
-    try:
-        posts = paginator.page(page)
-    except PageNotAnInteger:
-        posts = paginator.page(1)
-    except EmptyPage:
-        posts = paginator.page(paginator.num_pages)
-
-    return {
-        'category': category,
-        'posts': posts,
-        'categories': categories,
-        'paginator': paginator,
-    }
+    def get_context_data(self, **kwargs):
+        context = super(CategoryView, self).get_context_data(**kwargs)
+        context.update({
+            'posts': Post.objects.get_active().filter(category=self.object)
+        })
+        return context
 
 
-@render_to('archives.html')
-def archives(request):
-    posts_list = Post.objects.filter(is_active=True).order_by('-published_at')
+class ArchivesView(ListView):
+    model = Post
+    queryset = Post.objects.get_active()
+    template_name = 'archives.html'
 
-    # Order post by creation and then create groups by year
-    years = {
-        k: list(g) for k, g in groupby(
-            sorted(posts_list, key=lambda x: x.published_at.date().year),
-            lambda x: x.published_at.date().year
-        )
-    }
-
-    return {'archives': years}
+    def get_context_data(self, **kwargs):
+        context = super(ArchivesView, self).get_context_data(**kwargs)
+        years = {
+            k: list(g) for k, g in groupby(
+                sorted(self.get_queryset(), key=lambda x: x.created_at.year),
+                lambda x: x.created_at.year
+            )
+        }
+        context.update({
+            'archives': years,
+        })
+        return context
 
 
 class LatestEntriesFeed(Feed):
@@ -89,7 +72,7 @@ class LatestEntriesFeed(Feed):
     description = 'La comunidad de Django en México'
 
     def items(self):
-        return Post.objects.filter(is_active=True).order_by('-published_at')[:10]
+        return Post.objects.filter(is_active=True)[:10]
 
     def item_title(self, item):
         return item.title

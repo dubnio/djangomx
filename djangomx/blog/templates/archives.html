@@ -22,7 +22,7 @@
 
         <article>
 
-          <a href="{% url 'blog:view_post' post.slug %}" class="post-title-archive">{{ post.title }}</a> | Publicado el {{ post.published_at }}
+          <a href="{{ post.get_absolute_url }}" class="post-title-archive">{{ post.title }}</a> | Publicado el {{ post.created_at }}
 
         </header>
         </article>

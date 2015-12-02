@@ -22,7 +22,7 @@
       <div class="col-sm-6">
 
         <div class="blog-post">
-          <h2 class="blog-post-title"><a href="{% url 'blog:view_post' post.slug %}">{{ post.title }}</a></h2>
+          <h2 class="blog-post-title"><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h2>
           <p class="blog-post-meta">
             <span class="glyphicon glyphicon-calendar"></span>{{ post.created_at }} por
             <a href="{% url 'accounts:profile' username=post.author.username %}">{{ post.author.username }}</a>
@@ -32,12 +32,12 @@
           <img src="{{ post.image.url }}" class="img-responsive img-rounded">
           <hr>
           {% endif %}
-          {{ post.description | markdown}}
+          {{ post.content|truncatechars:175 }}
           <br>
-          <a class="btn btn-default btn-xs" href="{% url 'blog:view_post' slug=post.slug %}">Continua leyendo »</a>
+          <a class="btn btn-default btn-xs" href="{{ post.get_absolute_url }}">Continua leyendo »</a>
         </div><!-- End of post -->
       </div>
-      {% empty %}<h2>Aún no hay post de entradas.</h2>
+      {% empty %}<h2>Aún no hay entradas.</h2>
       {% endfor %}
 
     </div> <!-- End posts -->

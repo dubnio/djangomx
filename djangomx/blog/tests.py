@@ -8,7 +8,7 @@ from .models import Post
 from .views import archives, view_post
 
 
-class ProfileTestCase(TestCase):
+class PostTestCase(TestCase):
 
     def setUp(self):
         self.factory = RequestFactory()
