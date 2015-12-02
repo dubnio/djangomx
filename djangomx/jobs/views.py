@@ -1,18 +1,19 @@
 # coding: utf-8
-from django.views.generic import DetailView
+from django.views.generic import DetailView, ListView
+from django.views.generic.edit import FormMixin
 
-from annoying.decorators import render_to, ajax_request
+from annoying.decorators import ajax_request
 
 from .models import Job
 from .forms import JobForm
 
 
-@render_to("jobs_home.html")
-def jobs_home(request):
-    """ Render Job opportunities home page. """
-    jobs = Job.objects.filter(active=True, aproved=True)
-    form = JobForm()
-    return {'jobs': jobs, 'form': form}
+class JobsHomeView(FormMixin, ListView):
+    """ Render Job Opportunities home page. """
+    model = Job
+    queryset = Job.objects.filter(is_active=True, is_approved=True)
+    form = JobForm
+    template_name = 'jobs_home.html'
 
 
 @ajax_request
