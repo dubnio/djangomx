@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User
-from django.test import TestCase, RequestFactory
+from django.test import TestCase
 
 from django_gravatar.helpers import has_gravatar
 from model_mommy import mommy
@@ -38,7 +38,6 @@ class ProfileViewTestCase(TestCase):
     def setUp(self):
         self.user = mommy.make(User, username='test', email='me@netoxico.com')
         self.profile = mommy.make(Profile, user=self.user)
-        self.factory = RequestFactory()
         self.post1 = mommy.make(Post, author=self.user)
         self.post2 = mommy.make(Post, author=self.user)
         self.post3 = mommy.make(Post, author=self.user)
