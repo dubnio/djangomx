@@ -70,18 +70,18 @@
   {% for post in posts %}
   <div class="col-sm-6">
     <div class="blog-post">
-      <h2 class="blog-post-title"><a href="{% url 'blog:view_post' post.slug %}">{{ post.title }}</a></h2>
+      <h2 class="blog-post-title"><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h2>
       <p class="blog-post-meta">
-        <span class="glyphicon glyphicon-calendar"></span>{{ post.created_at }} por <a href="{% url 'accounts:profile' post.author.username %}">{{ post.author.username }}</a>
+        <span class="glyphicon glyphicon-calendar"></span> {{ post.created_at }} por <a href="{{ profile.get_absolute_url }}">{{ post.author.username }}</a> en <a href="{{ post.category.get_absolute_url }}">{{ post.category }}</a>
       </p>
       <hr>
       {% if post.image %}
       <img src="{{ post.image.url }}" class="img-responsive img-rounded">
       <hr>
       {% endif %}
-      {{ post.description | markdown }}
+      {{ post.content|truncatechars:225 }}
       <br>
-      <a href="{%url 'blog:view_post' post.slug %}" class="btn btn-default btn-xs">Continúa leyendo »</a>
+      <a href="{{ post.get_absolute_url }}" class="btn btn-default btn-xs">Continúa leyendo »</a>
     </div><!-- end .blog-post -->
   </div><!-- end .col-sm-6 -->
   {% empty %}
