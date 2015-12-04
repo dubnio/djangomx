@@ -2,8 +2,6 @@
 from itertools import groupby
 
 from django.contrib.syndication.views import Feed
-from django.core.urlresolvers import reverse
-from django.shortcuts import redirect
 from django.views.generic import ListView, DetailView
 
 from .models import Category, Post
@@ -16,13 +14,10 @@ class BlogHomeView(ListView):
     template_name = 'blog_home.html'
     context_object_name = 'posts'
 
-    def get_categories(self):
-        return Category.objects.filter(post__in=self.get_queryset(), is_active=True)
-
     def get_context_data(self, **kwargs):
         context = super(BlogHomeView, self).get_context_data(**kwargs)
         context.update({
-            'categories': self.get_categories(),
+            'categories': Category.objects.filter(post__in=self.get_queryset(), is_active=True),
         })
         return context
 
@@ -82,5 +77,8 @@ class LatestEntriesFeed(Feed):
     def item_description(self, item):
         return item.content
 
-    def item_link(self, item):
-        return reverse('view_post', args=[item.slug])
+    def item_author_name(self, item):
+        return item.author.get_full_name()
+
+    def item_author_link(self, item):
+        return item.author.profile.get_absolute_url()

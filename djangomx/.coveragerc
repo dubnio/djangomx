@@ -9,5 +9,10 @@ exclude_lines =
 
 omit =
     */migrations/*
+    */python?.?/*
+    */site-packages/nose/*
+    *__init__*
+    */tests.py
+    */admin.py
 
 show_missing = True
