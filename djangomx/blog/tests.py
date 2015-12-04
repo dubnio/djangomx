@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
-from django.test import TestCase, RequestFactory
+from django.http import Http404
 from django.core.urlresolvers import reverse
+from django.test import TestCase, RequestFactory
 
 from model_mommy import mommy
 
@@ -72,6 +73,5 @@ class PostTestCase(TestCase):
 
     def test_wrong_url(self):
         url = '/blog/not-valid-url/'
-        response = self.client.get(url)
-        self.assertEqual(response.status_code, 302)
-        self.assertRedirects(response, '/404/')
+        with self.assertRaises(Http404):
+            self.client.get(url)
