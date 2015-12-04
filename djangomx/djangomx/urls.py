@@ -20,9 +20,9 @@ urlpatterns = [
     url(r'^cursos/', include('courses.urls', namespace='courses')),
     url(r'^ofertas/', include('jobs.urls', namespace='jobs')),
 
-    url(r'^markdown/', include( 'django_markdown.urls')),
+    url(r'^markdown/', include('django_markdown.urls')),
 
-    url(r'^404/$', TemplateView.as_view(template_name='404.html')),
+    url(r'^404/$', TemplateView.as_view(template_name='404.html'), name='404'),
     url(r'^500/$', TemplateView.as_view(template_name='500.html')),
     url(
         r'^robots\.txt$',
@@ -38,6 +38,7 @@ urlpatterns = [
     ),
 
 ]
+handler404 = 'core.views.not_found_handler'
 
 if settings.DEBUG:
     urlpatterns += staticfiles_urlpatterns() + static(

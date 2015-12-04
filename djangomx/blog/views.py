@@ -3,6 +3,7 @@ from itertools import groupby
 
 from django.contrib.syndication.views import Feed
 from django.core.urlresolvers import reverse
+from django.shortcuts import redirect
 from django.views.generic import ListView, DetailView
 
 from .models import Category, Post
@@ -38,6 +39,7 @@ class CategoryView(DetailView):
     context_object_name = 'categories'
     paginate_by = 5
     template_name = 'category.html'
+    slug_url_kwarg = 'category_slug'
 
     def get_context_data(self, **kwargs):
         context = super(CategoryView, self).get_context_data(**kwargs)

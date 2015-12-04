@@ -10,8 +10,7 @@ from .models import Category, Post
 
 
 class CategoryAdmin(admin.ModelAdmin):
-    prepopulated_fields = {'slug': ('title', )}
-    list_display = ('title', 'slug', 'created_at', 'is_active')
+    list_display = ('title', 'created_at', 'is_active')
 
 
 def disable_posts(modeladmin, request, queryset):
@@ -27,13 +26,12 @@ available_posts.short_description = _("Available Selected Post")
 
 
 class PostAdmin(admin.ModelAdmin):
-    prepopulated_fields = {'slug': ('title', )}
     formfield_overrides = {
         TextField: {'widget': AdminMarkdownWidget}
     }
 
     list_display = (
-        'title', 'slug', 'description', 'created_at', 'is_active', 'author'
+        'title', 'description', 'created_at', 'is_active', 'author'
     )
 
     actions = [disable_posts, available_posts]

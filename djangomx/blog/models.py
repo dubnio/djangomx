@@ -13,8 +13,8 @@ from .managers import PostManager
 
 class Category(TimeStamppedModel):
     """ A categories to add to posts. """
-    title = models.CharField(verbose_name=_(u'Título'), max_length=255)
-    slug = models.SlugField(help_text=_(u'Identificador URI'), max_length=255, unique=True)
+    title = models.CharField(verbose_name=_(u'Título'), max_length=50)
+    slug = models.SlugField(editable=False, max_length=50, unique=True)
     description = models.CharField(verbose_name=_(u'Descripción'), max_length=255, blank=True)
 
     is_active = models.BooleanField(default=True)
@@ -27,14 +27,17 @@ class Category(TimeStamppedModel):
         return unicode(self.title)
 
     def save(self, *args, **kwargs):
-        self.slug = truncated_slugify(self.title)
+        self.slug = truncated_slugify(self.title, 50)
         super(Category, self).save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        return reverse('blog:category', kwargs={'category_slug': self.slug})
 
 
 class Post(TimeStamppedModel):
     """ A blog post. """
     title = models.CharField(verbose_name=_(u'Título'), max_length=75)
-    slug = models.SlugField(help_text=_(u'Identificador URI'), max_length=75, unique=True)
+    slug = models.SlugField(editable=False, max_length=75, unique=True)
     description = models.TextField(blank=True, null=True, help_text=u'Descripción usada para SEO')
     image = models.ImageField(verbose_name=_(u'Imagen'), help_text=_(u'Imagen destacada'), blank=True, upload_to=generate_filepath('blog'))
     content = models.TextField(help_text=_(u'Este es el contenido de el Post'))

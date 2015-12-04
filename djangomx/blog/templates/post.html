@@ -39,7 +39,7 @@
             <h2 class="blog-post-title">{{ post.title }}{{ object.title }}</h2>
             <p class="blog-post-meta">
                 <span class="glyphicon glyphicon-calendar"></span> {{ post.created_at }} por
-                <a href="{% url 'accounts:profile' post.author %}">{{ post.author }}</a> en <a href="{% url 'blog:category' post.category.slug %}">{{ post.category }}</a>
+                <a href="{% url 'accounts:profile' post.author %}">{{ post.author }}</a> en <a href="{{ post.category.get_absolute_url }}">{{ post.category }}</a>
             </p>
             <hr>
             {% if post.image %}

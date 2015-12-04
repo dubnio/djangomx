@@ -193,4 +193,5 @@ NOSE_ARGS = [
     '--with-coverage',
     '--with-fixture-bundling',
     '--cover-package=accounts,blog,jobs',
+    '-s',
 ]

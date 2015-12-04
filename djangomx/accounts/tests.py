@@ -43,6 +43,11 @@ class ProfileViewTestCase(TestCase):
         self.post3 = mommy.make(Post, author=self.user)
         self.post4 = mommy.make(Post, author=self.user, is_active=False)
 
+    def test_get_profile(self):
+        response = self.client.get(self.profile.get_absolute_url())
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, template_name='accounts/profile.html')
+
     def test_get_context_data(self):
         response = self.client.get(self.profile.get_absolute_url())
         context = response.context
