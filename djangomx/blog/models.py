@@ -1,8 +1,8 @@
 # coding: utf-8
-import os
-
 from __future__ import unicode_literals
 from django.utils.encoding import python_2_unicode_compatible
+
+import os
 
 from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
