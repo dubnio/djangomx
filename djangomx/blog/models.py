@@ -1,4 +1,7 @@
 # coding: utf-8
+from __future__ import unicode_literals
+from django.utils.encoding import python_2_unicode_compatible
+
 import os
 
 from django.contrib.auth.models import User
@@ -10,7 +13,7 @@ from django.utils.translation import ugettext as _
 
 from core.utils import get_filename
 
-
+@python_2_unicode_compatible
 class Category(models.Model):
     """ Category Model """
     title = models.CharField(
@@ -38,7 +41,7 @@ class Category(models.Model):
         verbose_name = _(u'Categoría')
         verbose_name_plural = _(u'Categorías')
 
-    def __unicode__(self):
+    def __str__(self):
         return "%s" % (self.title,)
 
 
@@ -46,7 +49,7 @@ def get_img_path(instance, filename):
     name, ext = os.path.splitext(filename)
     return 'blog/%s' % get_filename(ext)
 
-
+@python_2_unicode_compatible
 class Post(models.Model):
     """ Post Model """
     title = models.CharField(
@@ -95,7 +98,7 @@ class Post(models.Model):
         verbose_name_plural = _(u'Posts')
         ordering = ["-created_at"]
 
-    def __unicode__(self):
+    def __str__(self):
         return "%s" % (self.title,)
 
     def get_admin_url(self):

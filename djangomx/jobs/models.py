@@ -1,11 +1,14 @@
 # coding: utf-8
+from __future__ import unicode_literals
+from django.utils.encoding import python_2_unicode_compatible
+
 from django.core.urlresolvers import reverse
 from django.db import models
 
 from core.models import TimeStamppedModel
 from core.utils import truncated_slugify
 
-
+@python_2_unicode_compatible
 class Job(TimeStamppedModel):
     title = models.CharField(max_length=75)
     slug = models.SlugField(unique=True, max_length=75)
@@ -20,7 +23,7 @@ class Job(TimeStamppedModel):
         verbose_name_plural = u"Ofertas de trabajo"
         ordering = ["-created_at"]
 
-    def __unicode__(self):
+    def __str__(self):
         return self.title
 
     def save(self, *args, **kwargs):
